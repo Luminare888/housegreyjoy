@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portada con Olas en Parte Baja</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @font-face { font-family:'Game of Thrones'; src:url('https://dl.dropboxusercontent.com/scl/fi/7ffo1nc597xhnltpykbi6/Game-of-Thrones.ttf?rlkey=m0bpk2sg1cjewq16o8z2n6a7b&st=4vsynk82&dl=0'); }
+    @font-face {
+      font-family: 'Cinzel';
+      src: url(Cinzel-Regular.otf);
+    }
+
+*::-webkit-scrollbar {-webkit-appearance: none; width: 7px; height: 3px}
+*::-webkit-scrollbar-track-piece {background-color: #333}
+*::-webkit-scrollbar-thumb {background-color: #000; width: 0}
+
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      position: relative;
+      width: 700px;
+      height: 700px;
+      overflow: hidden;
+    }
+
+    .piece {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background-image: url('https://i.imgur.com/bntk5iz.png');
+      background-size: 700px 700px;
+      z-index: 2;
+      transition: transform 0.7s ease;
+      overflow: hidden;
+    }
+
+    .top-left { top: 0; left: 0; background-position: left top; }
+    .top-right { top: 0; right: 0; background-position: right top; }
+    .bottom-left { bottom: 0; left: 0; background-position: left bottom; }
+    .bottom-right { bottom: 0; right: 0; background-position: right bottom; }
+
+    .container:hover .top-left { transform: translate(-100%, -100%); }
+    .container:hover .top-right { transform: translate(100%, -100%); }
+    .container:hover .bottom-left { transform: translate(-100%, 100%); }
+    .container:hover .bottom-right { transform: translate(100%, 100%); }
+
+    .info {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      color: black;
+      z-index: 1;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .img1-amb {
+        width: 120px;
+        height: 120px;
+        border: 1px solid #deb348;
+        background: url(https://i.pinimg.com/236x/57/64/bd/5764bdb72b6a633d5f363103d09183d9.jpg);
+        margin-bottom: 20px;
+        margin-top: 0px;
+    }
+      .img2-amb {
+        width: 120px;
+        height: 120px;
+        border: 1px solid #deb348;
+        background: url(https://i.pinimg.com/236x/57/64/bd/5764bdb72b6a633d5f363103d09183d9.jpg);
+        margin-bottom: 20px;
+    }
+      .img3-amb {
+        width: 120px;
+        height: 120px;
+        border: 1px solid #deb348;
+        background: url(https://i.pinimg.com/236x/57/64/bd/5764bdb72b6a633d5f363103d09183d9.jpg);
+    }
+
+    .tab1-amb {
+    width: 425px;
+     height: 400px;
+    margin-left: 20px;
+    background: #0e0e0e;
+    border: 1px solid #deb348;
+    box-sizing: border-box;
+    padding: 30px;
+    overflow: auto;
+    color: #eee;
+    }
+
+    .panel1 {
+      background: url(https://i.imgur.com/iZ3WhTb.png);
+    height: 100%;
+    padding: 30px;
+    width: 100%;
+    }
+
+    .text-panel1 {
+      background-color: rgb(19 19 19 / 98%);
+    height: 480px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    color: #EEE;
+    text-shadow: none;
+    }
+
+    .tit-panel1 {
+      background-size: cover;
+    line-height: 45px;
+    text-align: center;
+    font-family: 'Game of Thrones';
+    font-size: 40px;
+    color: #dfb449;
+    text-shadow: 2px 0 0 #000;
+    letter-spacing: 2px;
+    width: 100%;
+    }
+
+    .texto {
+      margin-top: 10px;
+      height: 380px;
+      overflow: auto;
+      text-align: justify;
+      padding-right: 11px;
+      font: 16px lora;
+    }
+
+    .pj-panel2 {
+      height: 540px;
+    position: relative;
+    outline-offset: 10px;
+    padding: 10px;
+    margin-top: 0px;
+    background: url(https://i.imgur.com/iZ3WhTb.png);
+    }
+
+    /* Olas solo en la parte baja */
+    .wave-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 300%;
+      height: 300px;
+      opacity: 0.4;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .wave-overlay svg {
+      width: 100%;
+      height: 100%;
+      animation: waveMove 4s linear infinite;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-25%); }
+    }
+
+    /* Pestañas sin JS */
+    .tabs {
+      width: 100%;
+    }
+
+    /* Ocultamos los inputs radio */
+    .tabs input[type="radio"] {
+      display: none;
+    }
+
+    .tab-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+      margin-bottom: 0px;
+    }
+
+    .tab-buttons label {
+      display: inline-block;
+    justify-content: center;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    align-items: center;
+    font-family: 'Cinzel';
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #EEE;
+    letter-spacing: 1px;
+    line-height: 100%;
+    font-size: 20px;
+    padding: 0;
+    margin-right: 10px;
+    transition: 0.3s;
+    cursor: pointer;
+    border: 1px solid #1f1f1f;
+    padding: 20px;
+    border-radius: 20px;
+    }
+
+    /* Cuando el radio está seleccionado, coloreamos el label */
+    #tab-desc:checked ~ .tab-buttons label[for="tab-desc"],
+    #tab-detalles:checked ~ .tab-buttons label[for="tab-detalles"] {
+      color: white;
+      border-radius: 20px;
+      font-weight: bold;
+      font-family: 'Cinzel';
+      color: #dfb449;
+    }
+
+    .tab-content {
+      padding: 20px;
+      border-radius: 0px;
+      min-height: 150px;
+      width: 100%;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    #tab-desc:checked ~ .tab-content #desc,
+    #tab-detalles:checked ~ .tab-content #detalles {
+      display: block;
+    }
+
+    .titulo-panel {
+      font-family: 'Game of Thrones';
+      font-size: 20px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 10px;
+      text-align: center;
+      width: 350px;
+      margin-left: 50px;
+      margin-bottom: 10px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Esquinas -->
+  <div class="piece top-left"></div>
+  <div class="piece top-right"></div>
+
+  <!-- Esquinas con ola -->
+  <div class="piece bottom-left">
+    <div class="wave-overlay">
+      <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+        <path d="M0,60 
+                 C150,90 300,30 450,60 
+                 C600,90 750,30 900,60 
+                 C1050,90 1200,30 1350,60 
+                 L1350,100 L0,100 Z" 
+              fill="#ddb149" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="piece bottom-right">
+    <div class="wave-overlay">
+      <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+        <path d="M0,60 
+                 C150,90 300,30 450,60 
+                 C600,90 750,30 900,60 
+                 C1050,90 1200,30 1350,60 
+                 L1350,100 L0,100 Z" 
+              fill="#ddb149" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="info">
+     <div class="tabs">
+      <!-- Radio buttons ocultos -->
+      <input type="radio" name="tab" id="tab-desc" checked />
+      <input type="radio" name="tab" id="tab-detalles" />
+
+      <!-- Labels actúan como botones -->
+      <div class="tab-buttons">
+        <label for="tab-desc">Ambientacion</label>
+        <label for="tab-detalles">Personajes</label>
+      </div>
+
+      <!-- Contenido de las pestañas -->
+      <div class="tab-content">
+        <div class="tab-pane" id="desc">
+          <div class="panel1">
+            <div class="text-panel1"><div class="tit-panel1">Informacion</div>
+            <div class="texto">
+              <div class="titulo-panel">Historia</div>
+              En las costas azotadas por el viento salado del Mar del Ocaso, donde la piedra se impone sobre la tierra y la fe se ahoga en sangre, la Casa Greyjoy gobierna como un puño de hierro sobre un trono de escollos. Pero incluso el hierro se corroe cuando la sal que lo envuelve viene de adentro.<br><br>
+
+El actual Lord Greyjoy —un hombre endurecido por los naufragios del poder y la pérdida— tuvo seis hijos, pero no de una sola madre. Su legado se divide en dos ramas: una arraigada en el alma misma de las Islas del Hierro, la otra injertada desde el continente, delicada y rechazada.<br><br>
+
+La primera esposa fue Olga Volmark, isleña hasta la médula, rechoncha y de risa sonora, nacida entre mareas y vendavales. La amaban los isleños por su fuerza, su generosidad y su sangre de mar. No así su esposo, quien sólo la tomó por las embarcaciones que su linaje aportaba. De esa unión nacieron tres hijos: Dagon, Vaerna y Corwin.<br><br>
+
+La segunda esposa fue Kyra Vance, dama de las Tierras de los Ríos, traída como una joya extranjera a las Islas, tan hermosa como ajena. Su cabello claro y modales suaves encantaron a Lord Greyjoy de inmediato. A diferencia de Olga, ella sí fue amada. Pero esa adoración privada encendió el desprecio público: los isleños jamás la aceptaron. La consideraban débil, intrusa, impura. Aun así, de su vientre nacieron tres hijos que compartían la sangre del hierro, aunque con el estigma de su origen.<br><br>
+
+Aeron, con 19 años, aunque su linaje materno aún despierta murmullos, ha sabido imponerse entre los suyos con una lengua afilada y la práctica clandestina de las Viejas Costumbres.<br>
+Maelon, de 15, es un misterio al que nadie logra aferrarse del todo. Silencioso, críptico, casi etéreo. Sus largos silencios y su devoción inquebrantable inquietan a todos —incluso a sus propios hermanos.<br>
+Y el menor, Veilon, de apenas 11 años, es aún una criatura de juegos y risas, pero su inocencia se ha tornado motivo de miedo. Hay quienes lo observan con un brillo peligroso en los ojos, como si su vida pudiese pesar más muerta que viva.<br><br>
+
+Entre estas dos ramas —la isleña y la continental, la legitimada por el pueblo y la favorecida por el padre— no corre un río de armonía, sino un mar encrespado de rivalidad, celos y silencios evitados.<br><br>
+
+Y ahora, cuando los cimientos mismos de la fe tiemblan bajo la sombra de un hombre demacrado que se hace llamar la tercera encarnación de Lodos, el profeta renacido, las diferencias entre hermanos se convierten en grietas. Porque Lodos no predica paz, sino fuego, tormenta y sumisión. Ya antes otros han tomado ese nombre, y todos terminaron arrastrando consigo a los que les creyeron.<br><br>
+
+Las Islas del Hierro están al borde de la guerra santa, y los hijos de Lord Greyjoy se encuentran atrapados entre la sangre que los une, y la fe que los puede destruir.<br><br>
+
+<div class="titulo-panel">Foco Narrativo</div>
+
+            </div></div>
+        </div>
+        </div>
+        <div class="tab-pane" id="detalles">
+          <div class="pj-panel2">
+            <!-- Pestañas tipo sidebar -->
+<style>
+  .sidebar-tabs {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sidebar-nav {
+    padding: 10px;
+    font: 800 14px / 100% lora;
+    text-align: center;
+    background: #161616;
+    color: #EEE;
+    margin-bottom: 5px;
+    text-shadow: none;
+    display: flex;
+  flex-direction: row; /* de columna a fila */
+  justify-content: flex-end;
+  gap: 4px; /* espacio entre los círculos */
+  z-index: 4;
+  }
+
+  .sidebar-tit {
+    font-weight: 700;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    font-size: 18px;
+    margin-right: 230px;
+    font-family: 'Cinzel';
+  }
+
+.sidebar-nav label {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #dfb449;
+  cursor: pointer;
+  margin-right: 0px;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.sidebar-nav label::after {
+  content: attr(data-tooltip);
+  position: relative;
+  left: -650%;
+  transform: translateX(-50%);
+  color: #eee;
+  font-family: 'Game of Thrones';
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 20px;
+}
+
+.sidebar-nav label:hover::after {
+  opacity: 1;
+}
+
+.sidebar-nav label:hover {
+  transform: scale(1.1);
+  background-color: #f5cd72;
+}
+
+  .sidebar-tabs input[type="radio"] {
+    display: none;
+  }
+
+  .sidebar-content {
+    flex-grow: 1;
+    display: flex;
+    width: 300%;
+    transition: transform 0.5s ease;
+  }
+
+  .tab-panel {
+    width: 100%;
+    padding: 20px;
+    color: #eee;
+    overflow-y: auto;
+  }
+
+  .pj-info {
+        margin: -20px;
+        margin-top: -10px;
+    height: 475px;
+    color: #EEE;
+    padding: 0px;
+    font: 12px arial;
+    display: flex;
+  }
+
+  .pj-infotext1 {
+    height: 475px;
+    margin-left: 10px;
+    width: 320px;
+    background: #161616;
+    color: #EEE;
+    padding: 20px;
+    font: 16px lora;
+    text-align: justify;
+    overflow: auto;
+  }
+
+  .pj-img1 {
+    width: 230px;
+    height: 458px;
+    background: url(https://i.imgur.com/Ruopzx5.png) center;
+    background-size: cover;
+    border: 1px solid #1F1F1F;
+  }
+
+  .img-tit1 {
+    width: 229px;
+    height: 100px;
+    padding: 40px;
+    background: rgb(19 19 19 / 98%);
+    margin-top: 370px;
+    font-family: 'Game of Thrones';
+    color: #dfb449;
+    padding-top: 20px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 25px;
+    letter-spacing: 2px;
+  }
+
+   .pj-infotext2 {
+    height: 475px;
+    margin-left: 10px;
+    width: 320px;
+    background: #161616;
+    color: #EEE;
+    padding: 20px;
+    font: 16px lora;
+    text-align: justify;
+    overflow: auto;
+  }
+
+  .pj-img2 {
+    width: 230px;
+    height: 458px;
+    background: url(https://i.imgur.com/LsEPBtJ.png) center;
+    background-size: cover;
+    border: 1px solid #1F1F1F;
+  }
+
+  .img-tit2 {
+    width: 229px;
+    height: 100px;
+    padding: 40px;
+    background: rgb(19 19 19 / 98%);
+    margin-top: 370px;
+    font-family: 'Game of Thrones';
+    color: #dfb449;
+    padding-top: 20px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 25px;
+    letter-spacing: 2px;
+  }
+
+  .pj-infotext3 {
+    height: 475px;
+    margin-left: 10px;
+    width: 320px;
+    background: #161616;
+    color: #EEE;
+    padding: 20px;
+    font: 16px lora;
+    text-align: justify;
+    overflow: auto;
+  }
+
+  .pj-img3 {
+    width: 230px;
+    height: 458px;
+    background: url(https://i.imgur.com/Yav6gh0.png) center;
+    background-size: cover;
+    border: 1px solid #1F1F1F;
+  }
+
+  .img-tit3 {
+    width: 229px;
+    height: 100px;
+    padding: 40px;
+    background: rgb(19 19 19 / 98%);
+    margin-top: 370px;
+    font-family: 'Game of Thrones';
+    color: #dfb449;
+    padding-top: 20px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 25px;
+    letter-spacing: 2px;
+  }
+
+  #side-tab1:checked ~ .sidebar-content {
+    transform: translateX(0%);
+  }
+
+  #side-tab2:checked ~ .sidebar-content {
+    transform: translateX(-33.4%);
+  }
+
+  #side-tab3:checked ~ .sidebar-content {
+    transform: translateX(-66.8%);
+  }
+</style>
+
+<div class="sidebar-tabs">
+  <!-- Radios -->
+  <input type="radio" name="sidebar" id="side-tab1" checked>
+  <input type="radio" name="sidebar" id="side-tab2">
+  <input type="radio" name="sidebar" id="side-tab3">
+
+  <!-- Menú lateral -->
+  <div class="sidebar-nav">
+    <div class="sidebar-tit">INFO. DE LOS PERSONAJES</div>
+    <label for="side-tab1" data-tooltip="Aeron Greyjoy"></label>
+    <label for="side-tab2" data-tooltip="Maelon Greyjoy"></label>
+    <label for="side-tab3" data-tooltip="Veilon Greyjoy"></label>
+  </div>
+
+  <!-- Contenido -->
+  <div class="sidebar-content">
+    <div class="tab-panel">
+      <div class="pj-info">
+        <div class="pj-img1"><div class="img-tit1">Aeron Greyjoy</div></div>
+        <div class="pj-infotext1">Aeron Greyjoy es el primogénito, el primero que vino del hierro y el salitre, y nadie lo olvida. Carga con el apellido como se carga una espada envainada: lista, pesada, inevitable. Desde joven se esperó de él que guiara, que soportara, que castigara si hacía falta. Y él nunca retrocedió ante esa expectativa.<br><br>
+
+Ser el mayor no le dio indulgencia, le dio deber. Su educación fue dura, marcada por las manos de su padre y los ojos de los sacerdotes del Dios Ahogado. No se doblegó. Aprendió a escuchar el mar como otros escuchan a los hombres. Y cuando habla, pocos se atreven a interrumpirlo.<br><br>
+
+Tiene una lengua afilada y un humor ácido que no perdona tonterías. Sus palabras, como su espada, no vacilan: cortan donde duele, aunque sin perder nunca la precisión. No alza la voz a menudo, pero cuando lo hace, es para decir lo que nadie más se atreve a señalar. Y lo hace sin rodeos, sin adornos, como si el lenguaje fuera otra arma bien templada.<br><br>
+
+Se rumorea, con creciente frecuencia, que es uno de los mejores duelistas de las Islas del Hierro. Algunos lo afirman con respeto, otros con temor. Ha derribado a hombres veteranos con una frialdad que hiela más que la espada misma. No busca desafíos, pero no evade ninguno. Su estilo es directo, limpio, sin ceremonia. Letal sin ruido.<br><br>
+
+Luce armadura incluso a bordo, entre cuerdas y olas, como si no reconociera el riesgo. No lo hace por orgullo. Lo hace por fe. Cree —de forma auténtica, casi aterradora— que si el mar decide tomarlo, lo hará con o sin placas. Su confianza en el Dios Ahogado no se discute. Se respira.<br><br>
+
+En la dinámica de los hermanos, su lugar no se debate. Aeron no necesita recordárselo a nadie. No grita, no impone. Mira. Habla cuando la palabra pesa. Juzga con la severidad de quien nunca se permitió debilidad. Tiene una relación áspera con Dagon, marcada por tensiones viejas y respeto callado. A Maelon lo vigila más que lo acompaña. No entiende del todo en qué se ha convertido su hermano, y eso lo incomoda. A Veilon lo observa con una mezcla difícil: deber protector, duda persistente y la necesidad silenciosa de que ese niño pruebe que vale la sangre que lleva.<br><br>
+
+Aeron no sonríe a menudo. Y cuando lo hace, es una mueca entre burla y advertencia. No se permite descanso, ni palabras suaves. Es hijo del hierro, pero más que eso: es el rostro que la familia muestra cuando hace falta recordar quiénes son. El mar no lo ha reclamado, tal vez porque aún le queda trabajo por hacer.</div>
+      </div>
+    </div>
+    <div class="tab-panel">
+      <div class="pj-info">
+        <div class="pj-img2"><div class="img-tit2">Maelon Greyjoy</div></div>
+        <div class="pj-infotext2">Maelon Greyjoy es el más críptico de los hermanos, una figura envuelta en bruma incluso bajo el sol. No es callado por timidez, sino por elección. Habla poco y cuando lo hace, sus palabras suelen dejar más preguntas que respuestas. Su fe en el Dios Ahogado no es ritual ni ruidosa: es algo más viejo, más íntimo, como si no rezara al dios, sino con él.<br><br>
+
+A menudo se le encuentra solo, observando el mar durante horas sin moverse, indiferente al frío, la sal o el paso del tiempo. Algunos dicen que escucha cosas en el viento que los demás no perciben. Se rumorea que durante su ceremonia de ahogamiento permaneció bajo el agua más tiempo del debido, y que desde entonces nunca volvió del todo. Hay quienes lo evitan; otros lo siguen sin saber por qué.<br><br>
+
+Entre sus hermanos, provoca una tensión silenciosa. Aeron, que no se deja impresionar con facilidad, lo observa con una cautela constante. Veilon, aún joven, lo mira como se mira a un presagio. Maelon no busca mando ni respeto, pero su sola presencia impone. No pertenece completamente al mundo de los hombres, pero mientras camine entre ellos, nadie se atreverá a olvidarlo.</div>
+      </div>
+    </div>
+    <div class="tab-panel">
+      <div class="pj-info">
+      <div class="pj-img3"><div class="img-tit3">Veilon Greyjoy</div></div>
+        <div class="pj-infotext3">Veilon es un chico con mucha actividad, al ser el más pequeño de los hermanos ha vivido con poca presión familiar pues al final jamas se espero demasiado por su parte. Debido a los recientes acontecimientos, la preocupación de sus más allegados ha ido creciendo debido a su corta edad y que muchos ojos ajenos piensan que la vida del chico es más valiosa con su muerte que lo que podría aportar vivo.  Se trata de un joven optimista, que siempre tiene palabras de animo para todo el mundo y con su sonrisa tiende a tratar de llenar los huecos que quizás muchos no pueden llenar.<br><br> 
+
+A pesar de todo, pequeño de los Greyjoy siempre ha sido una persona que esta rodeada de problemas, su gusto por esconderse en los sitios más extraños y actuar como una especie de espia siempre adornado con un tono de juego para el le ha llevado a varias conversaciones y riñas tratando de hacerle comprender el peligro que puede suponer que sus oidos escuchen las palabras equivocadas de la persona menos indicada.<br><br> 
+
+No obstante, siempre ha tenido un sentimiento de competición con su hermano mediano, el cual a pesar de ser el segundo se ha esperado de el que sea un hijo del Dios Ahogado como el resto de los hijos más mayores Greyjoy, esta competición interna le ha llevado a tener algún momento tenso con el, no obstante siempre es respondido y acallado con las risas, burlas y algunas miradas condescendientes de varios de los hermanos y hombres que rodeaban la situación.</div>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+</body>
+</html>
